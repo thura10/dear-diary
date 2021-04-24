@@ -6,7 +6,21 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
-  }
+    children: [
+      {
+        path: 'entries',
+        loadChildren: () => import('./entries/entries.module').then( m => m.EntriesPageModule)
+      },
+      {
+        path: 'scenarios',
+        loadChildren: () => import('./scenarios/scenarios.module').then( m => m.ScenariosPageModule)
+      },
+      {
+        path: 'more',
+        loadChildren: () => import('./more/more.module').then( m => m.MorePageModule)
+      }
+    ]
+  },
 ];
 
 @NgModule({
