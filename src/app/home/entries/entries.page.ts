@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { AddEntryPage } from './add-entry/add-entry.page';
 
 @Component({
   selector: 'app-entries',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EntriesPage implements OnInit {
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
+  }
+
+  async addEntry() {
+    const modal = await this.modalCtrl.create({
+      component: AddEntryPage,
+    });
+    await modal.present();
   }
 
 }

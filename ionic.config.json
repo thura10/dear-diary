@@ -1,5 +1,7 @@
 {
   "name": "dear-diary",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

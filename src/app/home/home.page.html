@@ -1,4 +1,4 @@
-<ion-tabs>
+<ion-tabs *ngIf="screenWidth < 769; else sidebar">
   <!-- Tab bar -->
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="entries">
@@ -15,3 +15,33 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
+
+<ng-template #sidebar>
+  <ion-split-pane contentId="main">
+    <!--  the side menu  -->
+    <ion-menu contentId="main">
+      <ion-toolbar class="sidebar-title">
+        <ion-title>Dear Diary</ion-title>
+      </ion-toolbar>
+      <ion-content>
+        <div>
+          <ion-item class="sidebar-item" routerLink="/home/entries" routerLinkActive="active-sidebar-item" lines="none" style="margin-top: 2rem;">
+            <ion-icon color="primary" name="albums-outline" slot="start"></ion-icon>
+            <ion-label>Entries</ion-label>
+          </ion-item>
+          <ion-item class="sidebar-item" routerLink="/home/scenarios" routerLinkActive="active-sidebar-item" lines="none">
+            <ion-icon color="primary" name="bulb-outline" slot="start"></ion-icon>
+            <ion-label>Scenarios</ion-label>
+          </ion-item>
+          <ion-item class="sidebar-item" routerLink="/home/more" routerLinkActive="active-sidebar-item" lines="none">
+            <ion-icon color="primary" name="menu-outline" slot="start"></ion-icon>
+            <ion-label>More</ion-label>
+          </ion-item>
+        </div>
+      </ion-content>
+    </ion-menu>
+  
+    <!-- the main content -->
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
+</ng-template>

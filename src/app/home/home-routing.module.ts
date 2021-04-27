@@ -19,8 +19,12 @@ const routes: Routes = [
         path: 'more',
         loadChildren: () => import('./more/more.module').then( m => m.MorePageModule)
       }
-    ]
+    ],
   },
+  {
+    path: '',
+    redirectTo: 'home/entries'
+  }
 ];
 
 @NgModule({
