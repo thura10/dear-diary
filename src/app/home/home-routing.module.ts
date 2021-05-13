@@ -8,12 +8,12 @@ const routes: Routes = [
     component: HomePage,
     children: [
       {
-        path: 'entries',
-        loadChildren: () => import('./entries/entries.module').then( m => m.EntriesPageModule)
+        path: 'diary',
+        loadChildren: () => import('./diary/diary.module').then( m => m.DiaryPageModule)
       },
       {
-        path: 'scenarios',
-        loadChildren: () => import('./scenarios/scenarios.module').then( m => m.ScenariosPageModule)
+        path: 'imagination',
+        loadChildren: () => import('./imagination/imagination.module').then( m => m.ImaginationPageModule)
       },
       {
         path: 'more',
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home/entries'
+    redirectTo: 'home/diary'
   }
 ];
 

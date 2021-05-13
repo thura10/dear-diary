@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ScenariosPageRoutingModule } from './scenarios-routing.module';
+import { ImaginationPageRoutingModule } from './imagination-routing.module';
 
-import { ScenariosPage } from './scenarios.page';
+import { ImaginationPage } from './imagination.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ScenariosPageRoutingModule
+    ImaginationPageRoutingModule
   ],
-  declarations: [ScenariosPage]
+  declarations: [ImaginationPage]
 })
-export class ScenariosPageModule {}
+export class ImaginationPageModule {}

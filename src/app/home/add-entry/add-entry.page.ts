@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/database.service';
 
@@ -9,7 +9,7 @@ import { DatabaseService } from 'src/app/database.service';
 })
 export class AddEntryPage implements OnInit {
 
-  entries: Entry[];
+  @Input() type: string;
 
   constructor(
     private database: DatabaseService,
@@ -17,7 +17,7 @@ export class AddEntryPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    
   }
 
   addEntry() {
