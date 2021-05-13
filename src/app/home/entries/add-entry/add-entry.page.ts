@@ -14,7 +14,7 @@ export class AddEntryPage implements OnInit {
   constructor(
     private database: DatabaseService,
     private modal: ModalController
-    ) { }
+  ) { }
 
   ngOnInit() {
 
