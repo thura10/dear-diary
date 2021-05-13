@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DatabaseService } from 'src/app/database.service';
-import { Entry } from 'src/typings';
 
 @Component({
   selector: 'app-add-entry',
@@ -18,17 +17,11 @@ export class AddEntryPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.database.getDatabaseState().subscribe((isReady) => {
-      if (isReady) {
-        this.database.getEntries().subscribe((entries) => {
-          this.entries = entries;
-        });
-      }
-    });
+
   }
 
   addEntry() {
-    this.database.addEntry('new1', 'DeSC', 'SDKFJSDLFJD', './././.', ['tag1', 'tag2']);
+
   }
 
   dismiss() {

@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { File } from '@ionic-native/file/ngx';
-import { SQLite } from '@ionic-native/sqlite/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +23,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     File,
-    SQLite
+    SocialSharing
   ],
   bootstrap: [AppComponent],
 })

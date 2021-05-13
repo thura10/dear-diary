@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { File } from '@ionic-native/file/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import * as JSZip from 'jszip';
 
 @Component({
@@ -11,18 +12,13 @@ export class MorePage implements OnInit {
 
   text = '';
 
-  constructor(private file: File) { }
+  constructor(private file: File, private socialSharing: SocialSharing) { }
 
   ngOnInit() {
     this.text = this.file.documentsDirectory;
   }
-  readFile() {
-    this.file.readAsText(this.file.documentsDirectory, 'data.txt')
-    .then((result) => {
-      this.text = result;
-    })
-    .catch(err => {
-    });
+  async readFile() {
+
   }
   writeFile() {
     const text = 'Data Written' + Math.floor(Math.random() * 101);
@@ -40,8 +36,18 @@ export class MorePage implements OnInit {
     });
   }
 
-  export() {
+  async export() {
     const zip: JSZip = new JSZip();
+    const folder = zip.folder(this.file.documentsDirectory);
+
+    const exists = await this.file.checkFile(this.file.tempDirectory, 'temp.zip');
+    if (exists) {
+      await this.file.removeFile(this.file.tempDirectory, 'temp.zip');
+    }
+    const exportFile = await folder.generateAsync({type: 'arraybuffer'});
+
+    const filePath = await this.file.writeFile(this.file.tempDirectory, 'temp.zip', exportFile);
+    this.socialSharing.share(null, null, filePath);
   }
 
 }
