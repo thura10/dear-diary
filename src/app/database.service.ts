@@ -1,7 +1,5 @@
-/* eslint-disable max-len */
 import { Injectable } from '@angular/core';
 import { File, Entry } from '@ionic-native/file/ngx';
-import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 
 enum Directories {
@@ -14,21 +12,38 @@ enum Directories {
 })
 export class DatabaseService {
 
-  private diaryEntries: BehaviorSubject<Entry[]>;
-  private imaginationEntries: BehaviorSubject<Entry[]>;
+  private diaryEntries: BehaviorSubject<Entry[]> = new BehaviorSubject([]);
+  private imaginationEntries: BehaviorSubject<Entry[]> = new BehaviorSubject([]);
 
   constructor(
-    private file: File,
-    private platform: Platform
-  ) {
-    this.platform.ready()
-    .then(() => {
-      for (let dir in Directories) {
-        this.file.createDir(this.file.documentsDirectory, dir, false)
-        .then(() => {})
-        .catch(err => {})  
-      }
-    })
+    private file: File
+  ) {}
+
+  async createNewFile(folder: string, fileName: string) {
+    try {
+      const location = await this.file.resolveDirectoryUrl(this.file.dataDirectory);
+      const dir = await this.file.getDirectory(location, folder, { create: true });
+
+      const file = await this.file.createFile(dir.nativeURL, fileName + ".m4a", true)
+      return file.nativeURL;
+    }
+    catch(err) {
+      throw err;
+    }
+  }
+  async removeFile(path: string) {
+    try {
+      const location = await this.file.resolveLocalFilesystemUrl(path);
+      location.remove(
+        () => {},
+        (err) => {
+          console.log(err);
+        }
+      )
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
   getDiaryEntries() {
@@ -37,21 +52,34 @@ export class DatabaseService {
   }
   getImaginationEntries() {
     this.updateEntries(Directories.IMAGINATION);
-    return this.diaryEntries.asObservable();
+    return this.imaginationEntries.asObservable();
   }
 
-  private updateEntries(dir: string) {
-    this.file.listDir(this.file.documentsDirectory, dir)
-    .then((result) => {
-      switch(dir) {
-        case Directories.DIARY:
-          this.diaryEntries.next(result);
-          break;
-        case Directories.IMAGINATION:
-          this.imaginationEntries.next(result);
-          break;
-      }
-    })
+  private async updateEntries(folder: string) {
+    try {
+      const location = await this.file.resolveDirectoryUrl(this.file.dataDirectory);
+      const dir = await this.file.getDirectory(location, folder, {create: true});
+
+      dir.createReader().readEntries(
+        ((entries) => {
+          switch(folder) {
+            case Directories.DIARY:
+              this.diaryEntries.next(entries);
+              break;
+            case Directories.IMAGINATION:
+              this.imaginationEntries.next(entries);
+              break;
+          }
+        }),
+        ((err) => {
+          console.log("READ ERR:", err);
+        })
+      );
+
+    }
+    catch(err) {
+      console.log(err);
+    }
   }
 
 }

@@ -10,5 +10,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="addEntry()">Add Entry</ion-button>
+  <div class="flex-center" style="margin-top: 2rem;">
+    <ion-text style="font-size: large;">
+      <b>{{today | date:'shortTime'}}</b> &nbsp;&nbsp; • &nbsp;&nbsp; {{duration | audioDuration}}
+    </ion-text>
+  </div>
+  <div class="sound-container">
+    <div class="sound-wave">
+      <i [@sound-bar]="{value: ':enter', params: { previousBarWidth: getPreviousBarWidth() }}" class="bar" *ngFor="let wave of amplitude" [ngStyle]="{'height.px': wave }"></i>
+    </div>  
+  </div>
+  <div class="flex-center">
+    <ion-button class="toggle-btn" (click)="toggleRecord()" fill="outline" shape="round" size="large">
+      <ion-icon *ngIf="isRecording;else recordIcon" slot="icon-only" name="pause" size="large" color="dark"></ion-icon>
+      <ng-template #recordIcon>
+        <div class="record-icon"></div>
+      </ng-template>
+    </ion-button>  
+  </div>
 </ion-content>
