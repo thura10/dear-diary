@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="transparent">
+    <div id="modal-dismiss-bar"></div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <div class="flex-center" style="margin-bottom: 2rem;">
+      <ion-text>
+        <h2>{{entry.title}}</h2>
+        <ion-note>{{entry.dateModified | date:'d MMM y h:mm a' }}</ion-note>
+      </ion-text>
+    </div>
+  
+    <ion-range (ionChange)="seek($event)" snaps="true" ticks="false" min="0" [max]="duration" step="1" [value]="currentPosition">
+      <ion-label slot="start">{{currentPosition | audioDuration:true}}</ion-label>
+      <ion-label slot="end">{{duration | audioDuration:true}}</ion-label>
+    </ion-range>
+  
+    <div class="flex-center" style="margin-top: 2rem;">
+      <ion-button class="toggle-btn" (click)="togglePlayback()" fill="outline" shape="round" size="large">
+        <ion-icon slot="icon-only" [name]="isPlaying ? 'pause' : 'play'" [ngStyle]="{'margin-left.px': isPlaying ? 0 : 3 }" size="large" color="dark"></ion-icon>
+      </ion-button>
+      <ion-button style="margin-left: 2rem;" class="toggle-btn" (click)="dismiss()" fill="outline" shape="round" size="large">
+        <ion-icon slot="icon-only" name="stop" size="large" color="danger"></ion-icon>
+      </ion-button>
+    </div>  
+  </div>
+
+</ion-content>

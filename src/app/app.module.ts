@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { File } from '@ionic-native/file/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Media } from '@ionic-native/media/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { Media } from '@ionic-native/media/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     File,
     SocialSharing,
-    Media
+    Media,
+    StatusBar
   ],
   bootstrap: [AppComponent],
 })

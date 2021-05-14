@@ -9,6 +9,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-entry',
@@ -25,6 +26,8 @@ import {
 })
 export class AddEntryPage implements OnInit {
 
+  private modal: HTMLIonModalElement;
+
   @Input() type: string;
   today = Date.now();
   mediaFile: MediaObject;
@@ -35,15 +38,21 @@ export class AddEntryPage implements OnInit {
   amplitude: number[] = new Array(70).fill(8);
 
   isRecording: boolean;
+  entryForm: FormGroup;
 
   constructor(
     private database: DatabaseService,
-    private modal: ModalController,
-    private media: Media
+    private modalCtrl: ModalController,
+    private media: Media,
+    private formBuilder: FormBuilder
   ) { }
 
   async ngOnInit() {
-    this.database.createNewFile(this.type, this.today.toString())
+    this.entryForm = this.formBuilder.group({
+      title: ""
+    })
+
+    this.database.createNewFile(this.type, this.today.toString(), this.type)
     .then((url) => {
       this.fileUrl = url;
 
@@ -68,6 +77,14 @@ export class AddEntryPage implements OnInit {
     .catch((err) => {
       console.log("Create ERR: ", err);
     })
+
+    this.modal.onWillDismiss()
+    .then(() => {
+      this.cleanup();
+      if (this.entryForm.value.title) {
+        this.database.setFileName(this.fileUrl, this.entryForm.value.title, this.type);
+      }
+    });
   }
 
   toggleRecord() {
@@ -81,20 +98,17 @@ export class AddEntryPage implements OnInit {
     }
   }
 
-  addEntry() {
-
-  }
-
-  dismiss() {
+  cleanup() {
     if (this.mediaFile) {
       this.timer.unsubscribe();
 
       this.mediaFile.stopRecord();
       this.mediaFile.release();
-      
-      this.database.removeFile(this.fileUrl);
     }
-    this.modal.dismiss({}, "cancel");
+  }
+
+  dismiss() {
+    this.modalCtrl.dismiss();
   }
 
   getPreviousBarWidth() {

@@ -24,6 +24,10 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home/diary'
+  },
+  {
+    path: 'open-entry',
+    loadChildren: () => import('./open-entry/open-entry.module').then( m => m.OpenEntryPageModule)
   }
 ];
 
