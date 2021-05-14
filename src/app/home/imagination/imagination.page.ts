@@ -88,4 +88,33 @@ export class ImaginationPage implements OnInit {
     await alert.present();
   }
 
+  async editEntry(entry: Recording) {
+    const alert = await this.alertCtrl.create({
+      header: "Edit title",
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          placeholder: 'Title',
+          value: entry.title
+        }
+      ],
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel"
+        },
+        {
+          text: "Save"
+        }
+      ]
+    });
+    await alert.present();
+
+    const { data, role } = await alert.onDidDismiss();
+    if (role !== "cancel" && data.values.title !== entry.title) {
+      await this.database.setFileName(entry.fileUrl, data.values.title, this.type)
+    }
+  }
+
 }

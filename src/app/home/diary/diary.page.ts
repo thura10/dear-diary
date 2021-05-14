@@ -32,11 +32,6 @@ export class DiaryPage implements OnInit {
       this.entries = entries;
       this.filteredEntries = entries;
       this.searchBar.reset();
-      this.entries.push({
-        title: "whats popppin yo",
-        fileUrl: "",
-        dateModified: new Date()
-      })
     })
     this.searchBar.valueChanges.subscribe((query: string) => {
       if (query) {
@@ -91,6 +86,35 @@ export class DiaryPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  async editEntry(entry: Recording) {
+    const alert = await this.alertCtrl.create({
+      header: "Edit title",
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          placeholder: 'Title',
+          value: entry.title
+        }
+      ],
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel"
+        },
+        {
+          text: "Save"
+        }
+      ]
+    });
+    await alert.present();
+
+    const { data, role } = await alert.onDidDismiss();
+    if (role !== "cancel" && data.values.title !== entry.title) {
+      await this.database.setFileName(entry.fileUrl, data.values.title, this.type)
+    }
   }
 
 }

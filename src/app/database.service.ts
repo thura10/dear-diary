@@ -20,19 +20,6 @@ export class DatabaseService {
     private file: File
   ) {}
 
-  async readFileAsArrayBuffer(fileUrl: string) {
-    try {
-      const location = await this.file.resolveLocalFilesystemUrl(fileUrl);
-      const parent = await this.getParentDirectory(location);
-  
-      const file = await this.file.readAsArrayBuffer(parent.nativeURL, location.name);
-      return file;
-    }
-    catch(err) {
-      console.log(err);
-    }
-  }
-
   async createNewFile(folder: string, fileName: string, type: string) {
     try {
       const location = await this.file.resolveDirectoryUrl(this.file.dataDirectory);
