@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { TouchID } from '@ionic-native/touch-id/ngx';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth',
@@ -9,30 +10,56 @@ import { Platform } from '@ionic/angular';
 })
 export class AuthPage implements OnInit {
 
+  @Input() passcode: string;
+  passcodeInput: FormControl = new FormControl("");
+
+  biometricStatus: any;
+  msg: string = "";
+
   constructor(
     private touchId: TouchID,
-    private platform: Platform
-  ) { }
+    private platform: Platform,
+    private modalCtrl: ModalController
+  ) {}
 
   async ngOnInit() {
     await this.platform.ready();
     this.touchId.isAvailable()
     .then(
       (res) => {
-        this.touchId.verifyFingerprintWithCustomPasswordFallback("Unlock your recordings")
-        .then(
-          (res) => {
-            console.log('Ok', res)
-          },
-          (err) => {
-            console.error('Error', err)
-          }
-        );
+        this.biometricStatus = res;
+        this.biometricAuth();
       },
       (err) => {
-        console.error('TouchID is not available', err)
+        this.msg = err.localizedDescription || "Biometric authentication unavailable";
+        console.error("Touch ID unavailable: ", err);
       }
     );
+  }
+
+  biometricAuth() {
+    this.touchId.verifyFingerprintWithCustomPasswordFallback("Unlock your recordings")
+    .then(
+      (res) => {
+        this.dismiss();
+      },
+      (err) => {
+        this.msg = err.localizedDescription || "Biometric authentication unavailable";
+      }
+    );
+  }
+
+  passcodeAuth() {
+    if (this.passcodeInput.value === this.passcode) {
+      this.dismiss();
+    }
+    else {
+      this.msg = "Incorrect passcode"
+    }
+  }
+
+  dismiss() {
+    this.modalCtrl.dismiss();
   }
 
 }

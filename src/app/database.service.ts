@@ -113,7 +113,7 @@ export class DatabaseService {
   }
 
   private async updateEntries(folder: string) {
-    const entries = await this.getEntries(folder);
+    const entries = (await this.getEntries(folder)) || [];
     switch(folder) {
       case Directories.DIARY:
         this.diaryEntries.next(entries);

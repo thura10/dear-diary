@@ -20,19 +20,21 @@ export class HomePage implements OnInit {
 
   async ionViewWillEnter() {
     await this.platform.ready();
-    const preferences = await this.preferenceService.getData();
-    if (preferences.auth) {
-      const modal = await this.modalCtrl.create({
-        component: AuthPage,
-        componentProps: {
-          passcode: preferences.passcode
-        },
-        cssClass: 'fullscreen-modal',
-        swipeToClose: false,
-        showBackdrop: true,
-        backdropDismiss: false
-      })
-      await modal.present();  
+    if (this.platform.is("cordova")) {
+      const preferences = await this.preferenceService.getData();
+      if (preferences.auth) {
+        const modal = await this.modalCtrl.create({
+          component: AuthPage,
+          componentProps: {
+            passcode: preferences.passcode
+          },
+          cssClass: 'fullscreen-modal',
+          swipeToClose: false,
+          showBackdrop: true,
+          backdropDismiss: false
+        })
+        await modal.present();  
+      }  
     }
   }
 

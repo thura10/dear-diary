@@ -1,0 +1,30 @@
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#passcode-input {
+    --background: var(--ion-color-light-shade);
+    --padding-start: 1rem;
+    --padding-top: .75rem;
+    --padding-bottom: .75rem;
+    margin-top: 2rem;
+    border-radius: 20px;
+    width: 70%;
+    font-size: xx-large;
+    text-align: center;
+}
+
+#btn-bar {
+    position: absolute;
+    width: 100%;
+    bottom: 15%;
+    justify-content: space-evenly;
+}
+
+.unlock-btn {
+    width: 70px;
+    height: 70px;
+    --border-radius: 100px;
+}
