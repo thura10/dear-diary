@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
+import { AuthPage } from '../auth/auth.page';
+import { PreferenceService } from '../preference.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,28 @@ export class HomePage implements OnInit {
 
   screenWidth: number;
 
-  constructor(private platform: Platform) {
+  constructor(
+    private platform: Platform,
+    private modalCtrl: ModalController,
+    private preferenceService: PreferenceService
+  ) {}
+
+  async ionViewWillEnter() {
+    await this.platform.ready();
+    const preferences = await this.preferenceService.getPreferences().toPromise();
+    if (preferences.auth) {
+      const modal = await this.modalCtrl.create({
+        component: AuthPage,
+        componentProps: {
+          passcode: preferences.passcode
+        },
+        cssClass: 'fullscreen-modal',
+        swipeToClose: false,
+        showBackdrop: true,
+        backdropDismiss: false
+      })
+      await modal.present();  
+    }
   }
 
   ngOnInit() {

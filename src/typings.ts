@@ -3,3 +3,8 @@ export interface Recording {
     dateModified?: Date;
     fileUrl?: string
 }
+
+export interface Preferences {
+    auth?: boolean;
+    passcode?: string;
+}

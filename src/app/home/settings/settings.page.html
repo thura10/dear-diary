@@ -1,0 +1,36 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar style="padding-bottom: 1rem;">
+      <ion-title size="large">Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item class="pref-item" button detail="false" lines="none">
+    <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+    <ion-label>
+      Authenticate App
+    </ion-label>
+    <ion-toggle [formControl]="authToggle" color="primary"></ion-toggle>
+  </ion-item>
+  
+  <ion-item (click)="setPasscode()" class="pref-item" button lines="none">
+    <ion-icon name="apps-outline" slot="start"></ion-icon>
+    <ion-label>
+      Set Passcode
+    </ion-label>
+  </ion-item>
+
+  <ion-item (click)="exportFiles()" class="pref-item" button lines="none">
+    <ion-icon name="file-tray-full-outline" slot="start"></ion-icon>
+    <ion-label>
+      Export Files
+    </ion-label>
+  </ion-item>
+
+</ion-content>

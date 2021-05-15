@@ -13,6 +13,8 @@ import { File } from '@ionic-native/file/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Media } from '@ionic-native/media/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { TouchID } from '@ionic-native/touch-id/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +31,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     File,
     SocialSharing,
     Media,
-    StatusBar
+    StatusBar,
+    TouchID,
+    NativeStorage
   ],
   bootstrap: [AppComponent],
 })

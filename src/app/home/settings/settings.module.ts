@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AddEntryPageRoutingModule } from './add-entry-routing.module';
+import { SettingsPageRoutingModule } from './settings-routing.module';
 
-import { AddEntryPage } from './add-entry.page';
-import { AudioDurationModule } from 'src/app/app.component';
+import { SettingsPage } from './settings.page';
 
 @NgModule({
   imports: [
@@ -15,9 +14,8 @@ import { AudioDurationModule } from 'src/app/app.component';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    AddEntryPageRoutingModule,
-    AudioDurationModule
+    SettingsPageRoutingModule
   ],
-  declarations: [AddEntryPage]
+  declarations: [SettingsPage]
 })
-export class AddEntryPageModule {}
+export class SettingsPageModule {}

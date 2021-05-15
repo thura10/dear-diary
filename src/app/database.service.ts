@@ -33,6 +33,18 @@ export class DatabaseService {
       throw err;
     }
   }
+  async readFileAsArrayBuffer(fileUrl: string) {
+    try {
+      const location = await this.file.resolveLocalFilesystemUrl(fileUrl);
+      const parent = await this.getParentDirectory(location);
+
+      const file = await this.file.readAsArrayBuffer(parent.nativeURL, location.name);
+      return file;
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
   async deleteFile(path: string, type: string) {
     try {
       const location = await this.file.resolveLocalFilesystemUrl(path);
@@ -66,6 +78,18 @@ export class DatabaseService {
   }
 
   private async updateEntries(folder: string) {
+    const entries = await this.getEntries(folder);
+    switch(folder) {
+      case Directories.DIARY:
+        this.diaryEntries.next(entries);
+        break;
+      case Directories.IMAGINATION:
+        this.imaginationEntries.next(entries);
+        break;
+    }
+  }
+
+  async getEntries(folder: string) {
     try {
       const location = await this.file.resolveDirectoryUrl(this.file.dataDirectory);
       const dir = await this.file.getDirectory(location, folder, {create: true});
@@ -93,14 +117,7 @@ export class DatabaseService {
           }
         }
       }
-      switch(folder) {
-        case Directories.DIARY:
-          this.diaryEntries.next(recordings);
-          break;
-        case Directories.IMAGINATION:
-          this.imaginationEntries.next(recordings);
-          break;
-      }
+      return recordings;
     }
     catch(err) {
       console.log(err);

@@ -16,18 +16,14 @@ const routes: Routes = [
         loadChildren: () => import('./imagination/imagination.module').then( m => m.ImaginationPageModule)
       },
       {
-        path: 'more',
-        loadChildren: () => import('./more/more.module').then( m => m.MorePageModule)
+        path: 'settings',
+        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
       }
     ],
   },
   {
     path: '',
     redirectTo: 'home/diary'
-  },
-  {
-    path: 'open-entry',
-    loadChildren: () => import('./open-entry/open-entry.module').then( m => m.OpenEntryPageModule)
   }
 ];
 

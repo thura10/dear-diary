@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { AddEntryPageModule } from './add-entry/add-entry.module';
+import { OpenEntryPageModule } from './open-entry/open-entry.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AddEntryPageModule } from './add-entry/add-entry.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    AddEntryPageModule
+    AddEntryPageModule,
+    OpenEntryPageModule
   ],
   declarations: [HomePage]
 })

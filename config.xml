@@ -3,7 +3,7 @@
     <name>Dear Diary</name>
     <description>Basic voice diary with transcript to track my unstable mental condition and my eventual and inevitable decline into madness</description>
     <author email="thurasoewin.leader@gmail.com">thurasw</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -101,4 +101,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <allow-navigation href="http://localhost:8100" sessionid="a1976e3e" />
 </widget>

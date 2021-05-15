@@ -7,15 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { OpenEntryPageRoutingModule } from './open-entry-routing.module';
 
 import { OpenEntryPage } from './open-entry.page';
-import { AudioDurationPipe } from 'src/app/app.component';
+import { AudioDurationModule } from 'src/app/app.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    OpenEntryPageRoutingModule
+    OpenEntryPageRoutingModule,
+    AudioDurationModule
   ],
-  declarations: [OpenEntryPage, AudioDurationPipe]
+  declarations: [OpenEntryPage]
 })
 export class OpenEntryPageModule {}

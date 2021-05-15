@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Platform } from '@ionic/angular';
@@ -14,6 +14,12 @@ export class AudioDurationPipe implements PipeTransform {
     return `${Math.floor(seconds/60).toString().padStart(2, '0')}:${seconds%60}`;
   }
 }
+@NgModule({
+  imports: [],
+  declarations: [AudioDurationPipe],
+  exports: [AudioDurationPipe]
+})
+export class AudioDurationModule { }
 
 @Component({
   selector: 'app-root',
