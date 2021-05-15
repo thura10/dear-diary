@@ -22,6 +22,7 @@
     "@angular/router": "~11.2.0",
     "@ionic-native/core": "^5.33.0",
     "@ionic-native/file": "^5.32.1",
+    "@ionic-native/insomnia": "^5.33.0",
     "@ionic-native/media": "^5.33.0",
     "@ionic-native/native-storage": "^5.33.0",
     "@ionic-native/social-sharing": "^5.32.1",
@@ -48,6 +49,7 @@
     "cordova-ios": "^6.2.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-file": "^6.0.2",
+    "cordova-plugin-insomnia": "^4.3.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^4.0.0",
     "cordova-plugin-media": "^5.0.3",
@@ -88,7 +90,8 @@
         "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
       },
       "cordova-plugin-touch-id": {},
-      "cordova-plugin-nativestorage": {}
+      "cordova-plugin-nativestorage": {},
+      "cordova-plugin-insomnia": {}
     },
     "platforms": [
       "ios"

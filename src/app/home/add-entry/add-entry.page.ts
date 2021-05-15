@@ -10,6 +10,7 @@ import {
   transition
 } from '@angular/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 
 @Component({
   selector: 'app-add-entry',
@@ -44,13 +45,16 @@ export class AddEntryPage implements OnInit {
     private storage: StorageService,
     private modalCtrl: ModalController,
     private media: Media,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private insomnia: Insomnia
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.entryForm = this.formBuilder.group({
       title: ""
     })
+
+    this.insomnia.keepAwake();
 
     this.storage.createNewFile(this.type, this.today.toString(), this.type)
     .then((url) => {
@@ -90,18 +94,21 @@ export class AddEntryPage implements OnInit {
   toggleRecord() {
     if (this.isRecording) {
       this.isRecording = false;
+      this.insomnia.allowSleepAgain();
       this.mediaFile.pauseRecord();
     }
     else {
       this.isRecording = true;
+      this.insomnia.keepAwake();
       this.mediaFile.startRecord();
     }
   }
 
   cleanup() {
-    if (this.mediaFile) {
-      this.timer.unsubscribe();
+    this.timer.unsubscribe();
+    this.insomnia.allowSleepAgain();
 
+    if (this.mediaFile) {
       this.mediaFile.stopRecord();
       this.mediaFile.release();
     }

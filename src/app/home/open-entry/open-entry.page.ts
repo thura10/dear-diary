@@ -3,6 +3,7 @@ import { Media, MediaObject, MEDIA_STATUS } from '@ionic-native/media/ngx';
 import { Subscription, timer } from 'rxjs';
 import { Recording } from 'src/typings';
 import { ModalController } from '@ionic/angular';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 
 @Component({
   selector: 'app-open-entry',
@@ -28,13 +29,16 @@ export class OpenEntryPage implements OnInit {
 
   constructor(
     private media: Media,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private insomnia: Insomnia
   ) { }
 
   async ngOnInit() {
+    this.insomnia.keepAwake();
+
     this.mediaFile = this.media.create(this.entry.fileUrl);
 
-    this.mediaFile.play({playAudioWhenScreenIsLocked: false});
+    this.mediaFile.play({playAudioWhenScreenIsLocked: true});
     this.isPlaying = true;
 
     this.mediaFile.onStatusUpdate.subscribe((status) => {
@@ -63,6 +67,8 @@ export class OpenEntryPage implements OnInit {
     this.modal.onWillDismiss()
     .then((result) => {
       this.timer.unsubscribe();
+      this.insomnia.allowSleepAgain();
+      
       if (this.mediaFile) {
         this.mediaFile.stop();
         this.mediaFile.release();
@@ -73,11 +79,13 @@ export class OpenEntryPage implements OnInit {
   togglePlayback() {
     if (this.isPlaying) {
       this.isPlaying = false;
+      this.insomnia.allowSleepAgain();
       this.mediaFile.pause();
     }
     else {
       this.isPlaying = true;
-      this.mediaFile.play({playAudioWhenScreenIsLocked: false});
+      this.insomnia.keepAwake();
+      this.mediaFile.play({playAudioWhenScreenIsLocked: true});
     }
   }
 

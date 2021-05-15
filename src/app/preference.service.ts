@@ -9,18 +9,17 @@ import { Preferences } from 'src/typings';
 })
 export class PreferenceService {
 
-  private preferences: BehaviorSubject<Preferences> = new BehaviorSubject({});
+  private preferences: BehaviorSubject<Preferences> = new BehaviorSubject({
+    auth: false,
+    passcode: null
+  });
 
   constructor(
-    private nativeStorage: NativeStorage,
-    private platform: Platform
-  ) {
-    this.platform.ready().then(() => {
-      this.updateData();
-    })
-  }
+    private nativeStorage: NativeStorage
+  ) {}
 
   getPreferences() {
+    this.updateData();
     return this.preferences.asObservable();
   }
 
@@ -45,7 +44,7 @@ export class PreferenceService {
   }
 
   private async updateData() {
-    const preferences = await this.getData();
+    const preferences = (await this.getData()) || {};
     this.preferences.next(preferences);
   }
 

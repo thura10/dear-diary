@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { File } from '@ionic-native/file/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import * as JSZip from 'jszip';
 import { StorageService } from 'src/app/storage.service';
 import { PreferenceService } from 'src/app/preference.service';
@@ -24,10 +24,12 @@ export class SettingsPage implements OnInit {
     private preferenceService: PreferenceService,
     private storage: StorageService,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private platform: Platform
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.platform.ready();
     this.preferenceService.getPreferences().subscribe((result) => {
       this.preferences = result;
       const auth = this.preferences.auth ? true : false;
@@ -57,7 +59,8 @@ export class SettingsPage implements OnInit {
           attributes: {
             minLength: 4,
             maxLength: 6,
-            inputmode: "numeric"
+            inputmode: "numeric",
+            autofocus: true
           },
           value: this.preferences.passcode || "",
         }

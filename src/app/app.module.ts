@@ -15,6 +15,7 @@ import { Media } from '@ionic-native/media/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TouchID } from '@ionic-native/touch-id/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +34,8 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
     Media,
     StatusBar,
     TouchID,
-    NativeStorage
+    NativeStorage,
+    Insomnia
   ],
   bootstrap: [AppComponent],
 })

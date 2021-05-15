@@ -11,7 +11,7 @@ export class AudioDurationPipe implements PipeTransform {
     if (seconds < 60) {
       return `00:${seconds.toString().padStart(2, '0')}`
     }
-    return `${Math.floor(seconds/60).toString().padStart(2, '0')}:${seconds%60}`;
+    return `${Math.floor(seconds/60).toString().padStart(2, '0')}:${(seconds%60).toString().padStart(2, '0')}`;
   }
 }
 @NgModule({
