@@ -27,7 +27,7 @@ export class DatabaseService {
 
       const file = await this.file.createFile(dir.nativeURL, fileName + ".m4a", true)
       this.updateEntries(type);
-      return file.nativeURL;
+      return file.toInternalURL();
     }
     catch(err) {
       throw err;
@@ -92,7 +92,7 @@ export class DatabaseService {
             recordings.push({
               title: entry.name.replace(".m4a", ""),
               dateModified: metadata.modificationTime,
-              fileUrl: entry.nativeURL
+              fileUrl: entry.toInternalURL()
             })  
           }
           catch(err) {
@@ -100,7 +100,7 @@ export class DatabaseService {
             recordings.push({
               title: entry.name.replace(".m4a", ""),
               dateModified: new Date(),
-              fileUrl: entry.nativeURL
+              fileUrl: entry.toInternalURL()
             });
           }
         }

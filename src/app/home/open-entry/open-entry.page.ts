@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Media, MediaObject, MEDIA_STATUS } from '@ionic-native/media/ngx';
-import { DatabaseService } from 'src/app/database.service';
 import { Subscription, timer } from 'rxjs';
 import { Recording } from 'src/typings';
 import { ModalController } from '@ionic/angular';
@@ -19,20 +18,21 @@ export class OpenEntryPage implements OnInit {
 
   mediaFile: MediaObject;
   isPlaying: boolean;
+  isSeeking: boolean;
 
   duration: number = 0;
   currentPosition: number = 0;
+  seekPosition: number = 0;
 
   timer: Subscription;
 
   constructor(
     private media: Media,
-    private database: DatabaseService,
     private modalCtrl: ModalController
   ) { }
 
   async ngOnInit() {
-    this.mediaFile = this.media.create(this.entry.fileUrl.replace(/^file:\/\//, ''));
+    this.mediaFile = this.media.create(this.entry.fileUrl);
 
     this.mediaFile.play({playAudioWhenScreenIsLocked: false});
     this.isPlaying = true;
@@ -45,8 +45,14 @@ export class OpenEntryPage implements OnInit {
     })
 
     this.timer = timer(0, 1000).subscribe(async (elapsedCycles) => {
-      if (this.isPlaying) {
-        this.currentPosition = Math.round(await this.mediaFile.getCurrentPosition());
+      if (this.isPlaying && !this.isSeeking) {
+        try {
+          const position = await this.mediaFile.getCurrentPosition();
+          this.currentPosition = Math.round(position);
+        }
+        catch(err) {
+          console.log(err);
+        }
       }
     })
 
@@ -75,9 +81,17 @@ export class OpenEntryPage implements OnInit {
     }
   }
 
+  onSeekStart() {
+    this.isSeeking = true;
+  }
+  onSeekEnd() {
+    this.isSeeking = false;
+    this.mediaFile.seekTo(this.seekPosition*1000);
+  }
+
   seek(event: any) {
     const seconds = event.target.value;
-    this.mediaFile.seekTo(seconds*1000);
+    this.seekPosition = seconds;
   }
 
   dismiss() {

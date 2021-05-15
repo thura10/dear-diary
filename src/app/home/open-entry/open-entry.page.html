@@ -7,15 +7,16 @@
 <ion-content>
   <div>
     <div class="flex-center" style="margin-bottom: 2rem;">
-      <ion-text>
+      <ion-text style="text-align: center;">
         <h2>{{entry.title}}</h2>
         <ion-note>{{entry.dateModified | date:'d MMM y h:mm a' }}</ion-note>
       </ion-text>
     </div>
   
-    <ion-range (ionChange)="seek($event)" snaps="true" ticks="false" min="0" [max]="duration" step="1" [value]="currentPosition">
+    <ion-range (ionFocus)="onSeekStart()" (ionBlur)="onSeekEnd()" (ionChange)="seek($event)" [value]="currentPosition" snaps="true" ticks="false" min="0" [max]="duration" step="1">
       <ion-label slot="start">{{currentPosition | audioDuration:true}}</ion-label>
-      <ion-label slot="end">{{duration | audioDuration:true}}</ion-label>
+      <ion-label *ngIf="isSeeking" slot="end">{{seekPosition | audioDuration:true}}</ion-label>
+      <ion-label *ngIf="!isSeeking" slot="end">{{duration | audioDuration:true}}</ion-label>
     </ion-range>
   
     <div class="flex-center" style="margin-top: 2rem;">
