@@ -77,18 +77,6 @@ export class DatabaseService {
     return this.imaginationEntries.asObservable();
   }
 
-  private async updateEntries(folder: string) {
-    const entries = await this.getEntries(folder);
-    switch(folder) {
-      case Directories.DIARY:
-        this.diaryEntries.next(entries);
-        break;
-      case Directories.IMAGINATION:
-        this.imaginationEntries.next(entries);
-        break;
-    }
-  }
-
   async getEntries(folder: string) {
     try {
       const location = await this.file.resolveDirectoryUrl(this.file.dataDirectory);
@@ -121,6 +109,18 @@ export class DatabaseService {
     }
     catch(err) {
       console.log(err);
+    }
+  }
+
+  private async updateEntries(folder: string) {
+    const entries = await this.getEntries(folder);
+    switch(folder) {
+      case Directories.DIARY:
+        this.diaryEntries.next(entries);
+        break;
+      case Directories.IMAGINATION:
+        this.imaginationEntries.next(entries);
+        break;
     }
   }
 

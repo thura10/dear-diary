@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
 
   async ionViewWillEnter() {
     await this.platform.ready();
-    const preferences = await this.preferenceService.getPreferences().toPromise();
+    const preferences = await this.preferenceService.getData();
     if (preferences.auth) {
       const modal = await this.modalCtrl.create({
         component: AuthPage,

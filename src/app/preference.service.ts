@@ -34,14 +34,19 @@ export class PreferenceService {
     }
   }
 
-  private async updateData() {
+  async getData() {
     try {
       const preferences: Preferences = await this.nativeStorage.getItem("preferences");
-      this.preferences.next(preferences);
+      return preferences;
     }
     catch(err) {
       console.log(err);
     }
+  }
+
+  private async updateData() {
+    const preferences = await this.getData();
+    this.preferences.next(preferences);
   }
 
 }
