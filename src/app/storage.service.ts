@@ -11,7 +11,7 @@ enum Directories {
 @Injectable({
   providedIn: 'root'
 })
-export class DatabaseService {
+export class StorageService {
 
   private diaryEntries: BehaviorSubject<Recording[]> = new BehaviorSubject([]);
   private imaginationEntries: BehaviorSubject<Recording[]> = new BehaviorSubject([]);

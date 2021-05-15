@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ModalController, AlertController, Platform } from '@ionic/angular';
-import { DatabaseService } from 'src/app/database.service';
+import { StorageService } from 'src/app/storage.service';
 import { Recording } from 'src/typings';
 import { AddEntryPage } from '../add-entry/add-entry.page';
 import { OpenEntryPage } from '../open-entry/open-entry.page';
@@ -22,15 +22,15 @@ export class ImaginationPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private database: DatabaseService,
+    private storage: StorageService,
     private platform: Platform
   ) { }
 
   async ngOnInit() {
     await this.platform.ready();
-    this.database.getImaginationEntries().subscribe((entries) => {
-      this.entries = entries;
-      this.filteredEntries = entries;
+    this.storage.getImaginationEntries().subscribe((entries) => {
+      this.entries = entries.sort((a, b) => b.dateModified.valueOf() - a.dateModified.valueOf());
+      this.filteredEntries = this.entries;
       this.searchBar.reset();
     })
     this.searchBar.valueChanges.subscribe((query: string) => {
@@ -80,7 +80,7 @@ export class ImaginationPage implements OnInit {
         {
           text: 'Delete',
           handler: async() => {
-            await this.database.deleteFile(entry.fileUrl, this.type)
+            await this.storage.deleteFile(entry.fileUrl, this.type)
           }
         }
       ]
@@ -113,7 +113,7 @@ export class ImaginationPage implements OnInit {
 
     const { data, role } = await alert.onDidDismiss();
     if (role !== "cancel" && data.values.title !== entry.title) {
-      await this.database.setFileName(entry.fileUrl, data.values.title, this.type)
+      await this.storage.setFileName(entry.fileUrl, data.values.title, this.type)
     }
   }
 

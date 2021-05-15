@@ -4,10 +4,9 @@ import { File } from '@ionic-native/file/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import * as JSZip from 'jszip';
-import { DatabaseService } from 'src/app/database.service';
+import { StorageService } from 'src/app/storage.service';
 import { PreferenceService } from 'src/app/preference.service';
 import { Preferences } from 'src/typings';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +22,7 @@ export class SettingsPage implements OnInit {
     private file: File,
     private socialSharing: SocialSharing,
     private preferenceService: PreferenceService,
-    private database: DatabaseService,
+    private storage: StorageService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {}
@@ -91,11 +90,11 @@ export class SettingsPage implements OnInit {
       const zip: JSZip = new JSZip();
 
       for (let type of ['diary', 'imagination']) {
-        const entries = await this.database.getEntries(type);
+        const entries = await this.storage.getEntries(type);
         const folder = zip.folder(type);
   
         for (let entry of entries) {
-          const file = await this.database.readFileAsArrayBuffer(entry.fileUrl);
+          const file = await this.storage.readFileAsArrayBuffer(entry.fileUrl);
           folder.file(entry.title + ".m4a", file);
         }
       }

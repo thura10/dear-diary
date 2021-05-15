@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import { ModalController } from '@ionic/angular';
-import { DatabaseService } from 'src/app/database.service';
+import { StorageService } from 'src/app/storage.service';
 import { Subscription, timer } from "rxjs";
 import {
   trigger,
@@ -41,7 +41,7 @@ export class AddEntryPage implements OnInit {
   entryForm: FormGroup;
 
   constructor(
-    private database: DatabaseService,
+    private storage: StorageService,
     private modalCtrl: ModalController,
     private media: Media,
     private formBuilder: FormBuilder
@@ -52,7 +52,7 @@ export class AddEntryPage implements OnInit {
       title: ""
     })
 
-    this.database.createNewFile(this.type, this.today.toString(), this.type)
+    this.storage.createNewFile(this.type, this.today.toString(), this.type)
     .then((url) => {
       this.fileUrl = url;
 
@@ -82,7 +82,7 @@ export class AddEntryPage implements OnInit {
     .then(() => {
       this.cleanup();
       if (this.entryForm.value.title) {
-        this.database.setFileName(this.fileUrl, this.entryForm.value.title, this.type);
+        this.storage.setFileName(this.fileUrl, this.entryForm.value.title, this.type);
       }
     });
   }

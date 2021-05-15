@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { PreferenceService } from './preference.service';
 
-describe('PreferencesService', () => {
+describe('PreferenceService', () => {
   let service: PreferenceService;
 
   beforeEach(() => {
